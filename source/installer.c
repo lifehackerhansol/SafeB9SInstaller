@@ -99,7 +99,7 @@ u32 SafeB9SInstaller(void) {
         statusSdCard = STATUS_RED;
         return 1;
     }
-    InitNandCrypto(); // for sector0x96 crypto and NAND drives
+    InitNandCrypto(true); // for sector0x96 crypto and NAND drives
     snprintf(msgSdCard, 64, "%lluMB/%lluMB free", sdFree / (1024 * 1024), sdTotal / (1024 * 1024));
     statusSdCard = (sdFree < MIN_SD_FREE) ? STATUS_RED : STATUS_GREEN;
     ShowInstallerStatus();

@@ -108,7 +108,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: common clean all gateway firm 2xrsa binary cakehax cakerop brahma release
+.PHONY: common clean all gateway firm 2xrsa binary cakehax brahma release
 
 #---------------------------------------------------------------------------------
 all: firm
@@ -139,10 +139,6 @@ cakehax: submodules binary
 	@make dir_out=$(OUTPUT_D) name=$(TARGET).dat -C CakeHax bigpayload
 	@dd if=$(OUTPUT).bin of=$(OUTPUT).dat bs=512 seek=160
 
-cakerop: cakehax
-	@make DATNAME=$(TARGET).dat DISPNAME=$(TARGET) GRAPHICS=../resources/CakesROP -C CakesROP
-	@mv CakesROP/CakesROP.nds $(OUTPUT_D)/$(TARGET).nds
-
 brahma: submodules binary
 	@[ -d BrahmaLoader/data ] || mkdir -p BrahmaLoader/data
 	@cp $(OUTPUT).bin BrahmaLoader/data/payload.bin
@@ -158,7 +154,7 @@ release:
 	@-make --no-print-directory gateway
 	@-make --no-print-directory firm
 	@-make --no-print-directory 2xrsa
-	@-make --no-print-directory cakerop
+	@-make --no-print-directory cakehax
 	@-make --no-print-directory brahma
 	@[ -d $(RELEASE) ] || mkdir -p $(RELEASE)
 	@[ -d $(RELEASE)/$(TARGET) ] || mkdir -p $(RELEASE)/$(TARGET)
@@ -167,7 +163,6 @@ release:
 	@-cp $(OUTPUT_D)/arm9.bin $(RELEASE)
 	@-cp $(OUTPUT_D)/arm11.bin $(RELEASE)
 	@-cp $(OUTPUT).dat $(RELEASE)
-	@-cp $(OUTPUT).nds $(RELEASE)
 	@-cp $(OUTPUT).3dsx $(RELEASE)/$(TARGET)
 	@-cp $(OUTPUT).smdh $(RELEASE)/$(TARGET)
 	@-cp $(OUTPUT_D)/Launcher.dat $(RELEASE)
@@ -178,8 +173,6 @@ release:
 clean:
 	@echo clean CakeHax...
 	@-make clean --no-print-directory -C CakeHax
-	@echo clean CakesROP...
-	@-make clean --no-print-directory -C CakesROP
 	@echo clean BrahmaLoader...
 	@-make clean --no-print-directory -C BrahmaLoader
 	@echo clean 2xrsa...

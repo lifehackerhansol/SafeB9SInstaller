@@ -1,6 +1,6 @@
 [submodule "BrahmaLoader"]
 	path = BrahmaLoader
-	url = https://github.com/d0k3/BrahmaLoader.git
+	url = https://github.com/lifehackerhansol/BrahmaLoader.git
 	ignore = dirty
 [submodule "CakeHax"]
 	path = CakeHax
